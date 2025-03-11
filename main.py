@@ -1,7 +1,7 @@
 import os
 
 chamados = []
-contador_id = 1
+contadorId = 1
 
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -9,20 +9,20 @@ def cls():
 def topbar(text):
     print(f"-+-+- {text} -+-+-")
 
-def cadastrar_chamado(descricao, prioridade):
-    global contador_id
+def cadastrarChamado(descricao, prioridade):
+    global contadorId
     chamado = {
-        'id': contador_id,
+        'id': contadorId,
         'descricao': descricao,
         'prioridade': prioridade,
         'status': 'Aberto',
     }
     chamados.append(chamado)
-    contador_id += 1
-    print(f'Chamado {chamado['id']} inserido!')
+    contadorId += 1
+    print(f'Chamado {chamado["id"]} inserido!')
 
 
-def buscar_chamado(termo):
+def buscarChamado(termo):
     resultado = []
     for i in chamados:
         if termo == str(i['id']) or termo.lower() in i['descricao'].lower():
@@ -30,31 +30,31 @@ def buscar_chamado(termo):
     if resultado:
         for c in resultado:
             print(
-                f'ID: {c['id']}, Descrição: {c['descricao']}, Prioridade: {c['prioridade']}, Status: {c['status']}')
+                f'ID: {c["id"]}, Descrição: {c["descricao"]}, Prioridade: {c["prioridade"]}, Status: {c["status"]}')
     else:
         print('Nenhum chamado encontrado...')
 
 
-def remover_chamado(id_chamado):
+def removerChamado(idChamado):
     for i in chamados:
-        if i['id'] == id_chamado:
+        if i['id'] == idChamado:
             print(f'Chamado encontrado: \n{i}\n\nConfirma a remoção?\nDigite "S" para confirmar: ')
             chamados.remove(i)
-            print(f'Chamado {id_chamado} removido!')
+            print(f'Chamado {idChamado} removido!')
             return
-    print(f'chamado {id_chamado} não encontrado')
+    print(f'chamado {idChamado} não encontrado')
 
 
-def listar_chamados():
+def listarChamados():
     if not chamados:
         print('Nenhum chamado cadastrado.')
     else:
         for c in sorted(chamados, key=lambda x: x['prioridade']):
             print(
-                f'ID: {c['id']}, Descrição: {c['descricao']}, Prioridade: {['Alta','Média','Baixa'][c['prioridade']-1]}, Status: {c['status']}')
+                f'ID: {c["id"]}, Descrição: {c["descricao"]}, Prioridade: {["Alta", "Média", "Baixa"][c["prioridade"]-1]}, Status: {c["status"]}')
 
 
-def exibir_estatisticas():
+def exibirEstatisticas():
     abertos = 0
     for i in chamados:
         if i['status'] == 'Aberto':
@@ -64,28 +64,28 @@ def exibir_estatisticas():
         f'Total: {len(chamados)}, Chamados abertos: {abertos}, Chamados finalizados: {finalizados}')
 
 
-def reverter_lista():
+def reverterLista():
     chamados.reverse()
     print('Lista revertida!')
 
 
-def limpar_lista():
+def limparLista():
     chamados.clear()
     print("Lista limpa!")
 
 
-def finalizar_chamado(id_finalizar):
+def finalizarChamado(idFinalizar):
     for i in chamados:
-        if i['id'] == id_finalizar:
+        if i['id'] == idFinalizar:
             i['status'] = 'finalizado'
             cls()
             topbar('Finalizar Chamados')
-            print(f'Chamado {id_finalizar} finalizado!')
+            print(f'Chamado {idFinalizar} finalizado!')
             input('Pressione qualquer tecla para continuar...')
             return
     cls()
     topbar('Finalizar Chamados')
-    print(f'Chamado {id_finalizar} não encontrado')
+    print(f'Chamado {idFinalizar} não encontrado')
     input('Pressione qualquer tecla para continuar...')
 
 while True:
@@ -107,17 +107,17 @@ while True:
         topbar('Cadastro de Chamado')
         descricao = input('Descrição: ')
         prioridade = int(input('Prioridade 1-3 (1 é maior e 3 menor): '))
-        if prioridade not in [1,2,3]:
+        if prioridade not in [1, 2, 3]:
             print("Por favor, siga os padrões de resposta.")
             input('Pressione qualquer tecla para continuar...')
             continue
         cls()
         topbar('Cadastro de Chamado')
-        print(f'Confirma estes dados?\nDescrição: {descricao}\nPrioridade: {['Alta','Média','Baixa'][prioridade-1]} ({prioridade})')
+        print(f'Confirma estes dados?\nDescrição: {descricao}\nPrioridade: {["Alta", "Média", "Baixa"][prioridade-1]} ({prioridade})')
         _b = input('Pressione qualquer tecla para confirmar, ou 0 para cancelar...')
         if _b == '0':
             continue
-        cadastrar_chamado(descricao, prioridade)
+        cadastrarChamado(descricao, prioridade)
         cls()
         topbar('Cadastro de Chamado')
         print('Chamado cadastrado com sucesso!')
@@ -128,38 +128,38 @@ while True:
         termo = input('Digite ID ou descrição: ')
         cls()
         topbar('Buscar Chamado')
-        buscar_chamado(termo)
+        buscarChamado(termo)
         input('Pressione qualquer tecla para continuar...')
         
     elif opcao == '3':
         cls()
         topbar('Buscar Chamado')
-        id_chamado = int(input('Digite o ID do chamado para remover: '))
-        remover_chamado(id_chamado)
+        idChamado = int(input('Digite o ID do chamado para remover: '))
+        removerChamado(idChamado)
         cls()
         topbar('Remover Chamado')
         input('Pressione qualquer tecla para continuar...')
     elif opcao == '4':
         cls()
         topbar('Lista de Chamados')
-        listar_chamados()
+        listarChamados()
         input('Pressione qualquer tecla para continuar...')
     elif opcao == '5':
         cls()
         topbar('Estatísticas')
-        exibir_estatisticas()
+        exibirEstatisticas()
         input('Pressione qualquer tecla para continuar...')
     elif opcao == '6':
         cls()
         topbar('Inverter Lista de Chamados')
-        reverter_lista()
+        reverterLista()
         input('Pressione qualquer tecla para continuar...')
     elif opcao == '7':
         cls()
         topbar('Limpar Chamados')
         desicao = input("Gostaria de limpar a lista de chamados? (S/N): ")
         if desicao.lower() == 's':
-            limpar_lista()
+            limparLista()
             cls()
             topbar('Limpar Chamados')
             print('Lista de chamados limpa!')
@@ -173,8 +173,8 @@ while True:
     elif opcao == '8':
         cls()
         topbar('Finalizar Chamados')
-        id_finalizar = int(input("Digite o ID do chamado para finalizar: "))
-        finalizar_chamado(id_finalizar)
+        idFinalizar = int(input("Digite o ID do chamado para finalizar: "))
+        finalizarChamado(idFinalizar)
     elif opcao == '0':
         print('Saindo...')
         break
